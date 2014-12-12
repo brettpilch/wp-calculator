@@ -16,13 +16,14 @@ fldside_values = ['own', 'opp']
 down_default = '1'
 togo_default = '10'
 preGameWP_default = '0.50'
-ko1stHalf_default = '3'
+ko1stHalf_default = '3' #don't know
 
-
+#Initialize GUI window:
 app = Tk()
 app.title("NFL Win Probability Calculator")
-app.geometry("600x800+10+10")
+app.geometry("600x500+10+10")
 
+#Instantiate empty StringVars to hold output values:
 wp = StringVar()
 awp = StringVar()
 ep = StringVar()
@@ -31,6 +32,11 @@ td_prob = StringVar()
 fg_prob = StringVar()
 
 def calculate_wp():
+    """
+    This function is called when the submit button is clicked.
+    It constructs the API call from user input values.
+    WP data is retrieved from API and displayed in GUI labels.
+    """
     fields = [
         ['scorediff', scorediff.get()],
         ['minleft', minleft.get()],
@@ -58,14 +64,17 @@ def calculate_wp():
     td_prob.set(table[4][0] + ' ' + table[4][1])
     fg_prob.set(table[5][0] + ' ' + table[5][1])
 
+# Add each frame to the GUI packed from top to bottom:
 score_frame = Frame(app)
 score_frame.pack()
+
+# Add each GUI element (label, button, etc.) to the appropriate frame from left to right:
 scorediff_label = Label(score_frame, text = 'Score Difference:')
 scorediff_label.pack(side=LEFT)
 
 scorediff = StringVar()
 scorediff.set(scorediff_default)
-scorediff_entry = Entry(score_frame, textvariable = scorediff)
+scorediff_entry = Entry(score_frame, textvariable = scorediff, width=4)
 scorediff_entry.pack(side=LEFT)
 
 qtr_frame1 = Frame(app)
@@ -92,7 +101,7 @@ timeleft_label.pack(side=LEFT)
 
 minleft = StringVar()
 minleft.set(minleft_default)
-minleft_entry = Entry(timeleft_frame, textvariable = minleft)
+minleft_entry = Entry(timeleft_frame, textvariable = minleft, width=3)
 minleft_entry.pack(side=LEFT)
 
 secleft_label = Label(timeleft_frame, text = ':')
@@ -100,7 +109,7 @@ secleft_label.pack(side=LEFT)
 
 secleft = StringVar()
 secleft.set(secleft_default)
-secleft_entry = Entry(timeleft_frame, textvariable = secleft)
+secleft_entry = Entry(timeleft_frame, textvariable = secleft, width=3)
 secleft_entry.pack(side=LEFT)
 
 ydline_frame = Frame(app)
@@ -110,11 +119,8 @@ ydline_label.pack(side=LEFT)
 
 ydline = StringVar()
 ydline.set(ydline_default)
-ydline_entry = Entry(ydline_frame, textvariable = ydline)
+ydline_entry = Entry(ydline_frame, textvariable = ydline, width=3)
 ydline_entry.pack(side=LEFT)
-
-##fldside_label = Label(app, text = 'Field Side:')
-##fldside_label.pack()
 
 fldside = StringVar()
 fldside_b1 = Radiobutton(ydline_frame, text="Own", variable=fldside, value='own')
@@ -142,7 +148,7 @@ togo_label.pack(side=LEFT)
 
 togo = StringVar()
 togo.set(togo_default)
-togo_entry = Entry(togo_frame, textvariable = togo)
+togo_entry = Entry(togo_frame, textvariable = togo, width=3)
 togo_entry.pack(side=LEFT)
 
 pregame_frame = Frame(app)
@@ -152,7 +158,7 @@ preGameWP_label.pack(side=LEFT)
 
 preGameWP = StringVar()
 preGameWP.set(preGameWP_default)
-preGameWP_entry = Entry(pregame_frame, textvariable = preGameWP)
+preGameWP_entry = Entry(pregame_frame, textvariable = preGameWP, width=7)
 preGameWP_entry.pack(side=LEFT)
 
 ko_frame = Frame(app)
@@ -169,6 +175,11 @@ ko1stHalf_b1.select()
 submit_button = Button(app, text = 'Calculate Win Probability', width = 40, command = calculate_wp)
 submit_button.pack()
 
+separator = Frame(app, height=2, bd=1, relief=SUNKEN)
+separator.pack(fill=X, padx=5, pady=5)
+
+# Add all output labels to the bottom of the window.
+# These are initially empty, so they can't be seen in the window:
 wp_label = Label(app, textvariable = wp)
 wp_label.pack()
 awp_label = Label(app, textvariable = awp)
